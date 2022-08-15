@@ -24,8 +24,8 @@ const Target = ({id, children}: any) => (
 
 );
 
-const Subject = ({id}: any) => (
-    <motion.div layoutId={id} style={{cursor: 'pointer',}}>
+const Subject = ({id, onTap}: any) => (
+    <motion.div layoutId={id} style={{cursor: 'pointer',}} onTap={onTap}>
         <div
             style={{
                 display: 'flex',
@@ -65,6 +65,13 @@ export const App = () => {
     // const [dragId, setDragId] = useState<string>();
     // const [hoverId, setHoverId] = useState<string>();
 
+    const clearOrSetValue = (next: TSubject) => () => {
+        setValue(prev => {
+            const result = (prev === undefined)  ? next : undefined;
+            return result;
+        })
+    }
+
     const toggleValue = () => {
         setValue(prev => {
             switch (prev) {
@@ -98,7 +105,7 @@ export const App = () => {
             >
                 {targets.map((id) => (
                     <Target key={id} id={id}>
-                        {value ? <Subject id={value}/> : null}
+                        {value ? <Subject id={value} onTap={clearOrSetValue(value)}/> : null}
                     </Target>
                 ))}
             </div>
@@ -113,7 +120,7 @@ export const App = () => {
             >
                 {subjects.map((id) => (
                     value === id ? <SubjectPlaceholder key={`placeholder-${id}`} id={id}/> :
-                        <Subject key={id} id={id}/>
+                        <Subject key={id} id={id} onTap={clearOrSetValue(id)}/>
                 ))}
             </div>
         </div>
