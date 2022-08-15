@@ -112,7 +112,7 @@ export const App = () => {
                 }}
             >
                 {subjects.map((id) => (
-                    value === id ? <SubjectPlaceholder id={id}/> :
+                    value === id ? <SubjectPlaceholder key={`placeholder-${id}`} id={id}/> :
                         <Subject key={id} id={id}/>
                 ))}
             </div>
